@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  get 'cars/index'
+  get 'cars/show'
+  get 'cars/new'
+  get 'cars/create'
+  get 'cars/edit'
+  get 'cars/update'
+  get 'cars/destroy'
   devise_for :users
   root to: "pages#home"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -9,4 +16,8 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  resources :users do
+    resources :cars
+  end
+  resources :cars, only: [:index, :show]
 end

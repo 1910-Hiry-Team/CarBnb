@@ -75,3 +75,4 @@ end
 
 # Authentication
 gem "devise"
+gem 'faker'
