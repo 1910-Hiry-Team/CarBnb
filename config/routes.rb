@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   # root "posts#index"
   resources :users do
     resources :cars
+    resources :bookings
   end
   resources :cars, only: [:index, :show]
 end

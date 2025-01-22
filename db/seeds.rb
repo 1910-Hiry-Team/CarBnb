@@ -8,33 +8,6 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-
-puts "Cleaning the DB"
-Booking.destroy_all
-
-puts "Creating Booking DB seed"
-Booking.create(confirmed_booking: false, start_date: "2025-01-10", end_date: "2025-01-20", user_id: 1)
-Booking.create(confirmed_booking: false, start_date: "2025-01-08", end_date: "2025-01-10", user_id: 2)
-Booking.create(confirmed_booking: false, start_date: "2024-12-15", end_date: "2024-12-16", user_id: 1)
-Booking.create(confirmed_booking: false, start_date: "2024-12-05", end_date: "2024-12-12", user_id: 2)
-Booking.create(confirmed_booking: false, start_date: "2024-11-21", end_date: "2024-11-24", user_id: 1)
-
-puts "Seed DB created !"
-
-# require 'faker'
-# Fake Cars
-# 10.times do
-#   car = Car.new ("#{Faker::street_name}, #{rand(1000)}, #{Faker::Address.city},
-#               #{rand(10000)}, #{Faker::Adress.country}",
-#     address:
-#     brand: Faker::Vehicle.manufacturer,
-#     category: Faker::Vehicle.car_type,
-#     model: Faker::Vehicle.model(make_of_model: :brand),
-#     price_per_hour: rand(100)
-#   )
-#   car.save
-# end
-
 # Clean the database
 puts 'cleaning the database...'
 Car.destroy_all
@@ -64,3 +37,29 @@ end
 end
 
 puts "Seeding complete! Created #{User.count} users and #{Car.count} cars."
+
+puts "Cleaning the DB"
+Booking.destroy_all
+
+puts "Creating Booking DB seed"
+Booking.create(confirmed_booking: false, start_date: "2025-01-10", end_date: "2025-01-20", user: User.first, car: Car.first)
+Booking.create(confirmed_booking: false, start_date: "2025-01-08", end_date: "2025-01-10", user_id: 2)
+Booking.create(confirmed_booking: false, start_date: "2024-12-15", end_date: "2024-12-16", user_id: 1)
+Booking.create(confirmed_booking: false, start_date: "2024-12-05", end_date: "2024-12-12", user_id: 2)
+Booking.create(confirmed_booking: false, start_date: "2024-11-21", end_date: "2024-11-24", user_id: 1)
+
+puts "Seed DB created !"
+
+# require 'faker'
+# Fake Cars
+# 10.times do
+#   car = Car.new ("#{Faker::street_name}, #{rand(1000)}, #{Faker::Address.city},
+#               #{rand(10000)}, #{Faker::Adress.country}",
+#     address:
+#     brand: Faker::Vehicle.manufacturer,
+#     category: Faker::Vehicle.car_type,
+#     model: Faker::Vehicle.model(make_of_model: :brand),
+#     price_per_hour: rand(100)
+#   )
+#   car.save
+# end
