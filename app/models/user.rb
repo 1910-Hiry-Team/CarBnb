@@ -4,4 +4,7 @@ class User < ApplicationRecord
   has_many :bookings, dependent: :destroy
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+
+  validates :email, :password, presence: true
+  validates :email, format: URI::MailTo::EMAIL_REGEXP
 end
