@@ -12,14 +12,19 @@ USER_COUNT = 100
 CAR_COUNT = rand(50..100)
 BOOKING_COUNT = rand(50..100)
 
+cleaning_start_time = Time.now
 puts "Cleaning the database..."
 Booking.destroy_all
 Car.destroy_all
 User.destroy_all
-puts 'Database cleaned!'
+cleaning_stop_time = Time.now
+puts "Database cleaned #{cleaning_stop_time - cleaning_start_time}s!"
 
+seeding_start_time = Time.now
+
+users_start_time = Time.now
 puts "Creating users..."
-users = USER_COUNT.times do
+users = USER_COUNT.times.map do
   User.create!(
     email: Faker::Internet.unique.email,
     password: Faker::Internet.password,
@@ -27,20 +32,26 @@ users = USER_COUNT.times do
     last_name: Faker::Name.last_name
   )
 end
+users_stop_time = Time.now
+puts "Created #{User.count} users in #{users_stop_time - users_start_time}s"
 
+cars_start_time = Time.now
 puts "Creating cars..."
-cars = CAR_COUNT.times do
+cars = CAR_COUNT.times.map do
   Car.create!(
     address: "#{Faker::Address.street_name}, #{rand(1000)}, #{Faker::Address.city},
               #{rand(10000)}, #{Faker::Address.country}",
     brand: Faker::Vehicle.manufacturer,
     category: Faker::Vehicle.car_type,
-    model: Faker::Vehicle.model(make_of_model: :brand),
+    model: Faker::Vehicle.model, #(make_of_model: :brand),
     price_per_hour: rand(20..100), # Random price between 20 and 100
     user: users.sample # Assign a random user
   )
 end
+cars_stop_time = Time.now
+puts "Created #{Car.count} cars in #{cars_stop_time - cars_start_time}s"
 
+bookings_start_time = Time.now
 puts "Creating bookings..."
 BOOKING_COUNT.times do
   booking_user = users.sample
@@ -52,13 +63,19 @@ BOOKING_COUNT.times do
 
   booking_car = available_cars.sample
 
+  booking_start_date = Faker::Date.forward(days: 300)
+
   Booking.create!(
     confirmed_booking: false,
-    start_date: Faker::Date.forward(days: rand(1..300)),
-    end_date: Faker::Date.between(from: :start_date + 1, to: :start_date + rand(1..7)),
+    start_date: booking_start_date,
+    end_date: Faker::Date.between(from: booking_start_date + 1, to: booking_start_date + 7),
     user: users.sample,
-    cars: booking_car
+    # car: booking_car
   )
 end
+bookings_stop_time = Time.now
+puts "Created #{Booking.count} bookings in #{bookings_stop_time - bookings_start_time}s"
 
-puts "Seeding complete! Created #{User.count} users, #{Car.count} cars and #{Booking.count} bookings."
+seeding_stop_time = Time.now
+
+puts "Seeding complete! Created #{User.count} users, #{Car.count} cars and #{Booking.count} bookings in #{seeding_stop_time - seeding_start_time} seconds"
