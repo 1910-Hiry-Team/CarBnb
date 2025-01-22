@@ -1,0 +1,10 @@
+<div class="car-title">
+  <h1><%= @booking.car.brand %> <%= @booking.car.model %></h1>
+</div>
+<ul>
+  <li><%= @booking.start_date %> to <%= @booking.end_date %></li>
+  <li><%= @booking.car.price_per_hour %> €/h</li>
+</ul>
+
+<%= link_to "Edit booking", edit_user_booking_path(user_id: @booking.user, id: @booking.id)  %>
+<%= link_to "Back", user_bookings_path(user_id: @booking.user)  %>

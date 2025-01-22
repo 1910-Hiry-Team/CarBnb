@@ -10,6 +10,7 @@
 
 # Clean the database
 puts 'cleaning the database...'
+Booking.destroy_all
 Car.destroy_all
 User.destroy_all
 puts 'database cleaned!'
@@ -38,15 +39,13 @@ end
 
 puts "Seeding complete! Created #{User.count} users and #{Car.count} cars."
 
-puts "Cleaning the DB"
-Booking.destroy_all
 
 puts "Creating Booking DB seed"
 Booking.create(confirmed_booking: false, start_date: "2025-01-10", end_date: "2025-01-20", user: User.first, car: Car.first)
-Booking.create(confirmed_booking: false, start_date: "2025-01-08", end_date: "2025-01-10", user_id: 2)
-Booking.create(confirmed_booking: false, start_date: "2024-12-15", end_date: "2024-12-16", user_id: 1)
-Booking.create(confirmed_booking: false, start_date: "2024-12-05", end_date: "2024-12-12", user_id: 2)
-Booking.create(confirmed_booking: false, start_date: "2024-11-21", end_date: "2024-11-24", user_id: 1)
+Booking.create(confirmed_booking: false, start_date: "2025-01-08", end_date: "2025-01-10", user: User.first, car: Car.last)
+Booking.create(confirmed_booking: false, start_date: "2024-12-15", end_date: "2024-12-16", user: User.first, car: Car.last)
+Booking.create(confirmed_booking: false, start_date: "2024-12-05", end_date: "2024-12-12", user: User.first, car: Car.first)
+Booking.create(confirmed_booking: false, start_date: "2024-11-21", end_date: "2024-11-24", user: User.last, car: Car.last)
 
 puts "Seed DB created !"
 

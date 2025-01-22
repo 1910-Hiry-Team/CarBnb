@@ -1,13 +1,14 @@
 class BookingsController < ApplicationController
+  before_action :set_booking, only: [:show, :edit, :update, :destroy]
   def index
-    @bookings = Booking.all
+    @bookings = Booking.where(user_id: params[:user_id])
   end
 
   def show
-    @booking = Booking.find(params[:id])
   end
 
   def new
+    @user = User.find(params[:user_id])
     @booking = Booking.new
   end
 
@@ -16,21 +17,20 @@ class BookingsController < ApplicationController
     @booking.user = current_user
 
     if @booking.save
-      redirect_to user_booking_path(current_user)
+      redirect_to user_booking_path(@booking)
     else
       render :new, unprocessable_entity
     end
   end
 
   def edit
-    @booking = Booking.find(params[:id])
+    @user = User.find(params[:user_id])
   end
 
   def update
-    @booking = Booking.find(params[:id])
     @booking.update(booking_params)
 
-    redirect_to user_booking_path(@booking), flash[:notice] = "Booking succesfully updated"
+    redirect_to user_booking_path(booking_params), flash[:notice] = "Booking succesfully updated"
   end
 
   def destroy
