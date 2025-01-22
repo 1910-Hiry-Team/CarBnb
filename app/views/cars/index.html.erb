@@ -1,2 +1,19 @@
 <h1>Cars#index</h1>
 <p>Find me in app/views/cars/index.html.erb</p>
+<h1>Available Cars</h1>
+
+<% if @cars.any? %>
+  <ul>
+    <% @cars.each do |car| %>
+      <li>
+        <h3><%= car.brand %> <%= car.model %> (<%= car.category %>)</h3>
+        <p>Address: <%= car.address %></p>
+        <p>Price per hour: $<%= car.price_per_hour %></p>
+        <p>Location: Latitude <%= car.latitude %>, Longitude <%= car.longitude %></p>
+        <%= link_to 'View Details', car_path(car), class: 'btn btn-primary' %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No cars match your search criteria.</p>
+<% end %>

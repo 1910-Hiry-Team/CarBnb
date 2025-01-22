@@ -3,7 +3,7 @@
 
 
 
-<%= form_with(url: cars_path, method: :get, local: true) do |f| %>
+<%= form_with(url: search_cars_path, method: :get, local: true) do |f| %>
   <div>
     <label for="car_type">Car Type</label>
     <%= f.select :car_type, ['SUV', 'Sedan', 'Truck', 'Van'], include_blank: 'Any' %>
@@ -14,7 +14,7 @@
   </div>
   <div>
     <label for="radius">Radius (miles)</label>
-    <%= f.select :radius, [5, 10, 20, 50] %>
+    <%= f.select :radius, [5, 10, 20, 500] %>
   </div>
   <div>
     <label for="price_min">Price Range</label>

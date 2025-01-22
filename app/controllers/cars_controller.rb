@@ -1,7 +1,7 @@
 class CarsController < ApplicationController
   before_action :set_car, only: [:show, :edit, :update, :destroy]
   def index
-    @car = Car.all
+    @cars = Car.all
   end
 
   def show
@@ -38,34 +38,39 @@ class CarsController < ApplicationController
   end
 
   def search
-    # @cars = Car.all
-    # @cars = @cars.where(car_type: params[:car_type]) if params[:car_type].present?
-    # @cars = @cars.near(params[:address], params[:radius]) if params[:address].present? && params[:radius].present?
-    # if params[:price_min].present? && params[:price_max].present?
-    #   @cars = @cars.where(price_per_hour: params[:price_min]..params[:price_max])
-    # end
-    # @cars = Car.all
-    # Rails.logger.debug "Params: #{params.inspect}"
+    Rails.logger.debug "Search Params: #{params.inspect}"
 
+    # Start with all cars
+    @cars = Car.all
+    Rails.logger.debug "Initial Cars: #{@cars.inspect}"
+
+    # Filter by car type
     if params[:car_type].present?
       @cars = @cars.where(category: params[:car_type])
       Rails.logger.debug "Filtered by car_type: #{@cars.inspect}"
     end
 
+    # Filter by address and radius
     if params[:address].present? && params[:radius].present?
       begin
-        @cars = @cars.near(params[:address], params[:radius])
+        @cars = @cars.near(params[:address], params[:radius].to_i)
         Rails.logger.debug "Filtered by address and radius: #{@cars.inspect}"
       rescue => e
         Rails.logger.error "Geocoding error: #{e.message}"
       end
     end
 
-    if params[:price_min].present? && params[:price_max].present?
-      @cars = @cars.where(price_per_hour: params[:price_min]..params[:price_max])
+    # Filter by price range
+    if params[:price_min].present? || params[:price_max].present?
+      price_min = params[:price_min].to_i
+      price_max = params[:price_max].to_i
+      @cars = @cars.where(price_per_hour: price_min..price_max) if price_min > 0 || price_max > 0
       Rails.logger.debug "Filtered by price range: #{@cars.inspect}"
     end
 
+    Rails.logger.debug "Final Cars: #{@cars.inspect}"
+
+    # Render the index view with the filtered cars
     render :index
   end
 

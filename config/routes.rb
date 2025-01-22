@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   # end
   # root "posts#index"
   resources :users do
-    resources :cars
+    # resources :cars
   end
   resources :cars, only: [:index, :show] do
     collection do
