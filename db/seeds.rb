@@ -8,6 +8,8 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
+# Clean the database
+puts 'cleaning the database...'
 
 # Clear existing data to avoid duplication
 Booking.destroy_all
@@ -57,17 +59,11 @@ puts 'Created cars:'
 cars.each { |car| puts "- #{car.brand} #{car.model} at #{car.address}" }
 
 # Create Bookings
-puts 'Creating bookings...'
-10.times do
-  user = users.sample
-  car = cars.sample
-  Booking.create!(
-    start_date: Date.today + rand(1..10).days,
-    end_date: Date.today + rand(11..20).days,
-    user: user
-  )
-end
+puts "Creating Booking DB seed"
+Booking.create(confirmed_booking: false, start_date: "2025-01-10", end_date: "2025-01-20", user: User.first, car: Car.first)
+Booking.create(confirmed_booking: false, start_date: "2025-01-08", end_date: "2025-01-10", user: User.first, car: Car.last)
+Booking.create(confirmed_booking: false, start_date: "2024-12-15", end_date: "2024-12-16", user: User.first, car: Car.last)
+Booking.create(confirmed_booking: false, start_date: "2024-12-05", end_date: "2024-12-12", user: User.first, car: Car.first)
+Booking.create(confirmed_booking: false, start_date: "2024-11-21", end_date: "2024-11-24", user: User.last, car: Car.last)
 
-puts 'Created bookings.'
-
-puts 'Seeding completed!'
+puts "Seeding complete! Created #{User.count} users and #{Car.count} cars."
