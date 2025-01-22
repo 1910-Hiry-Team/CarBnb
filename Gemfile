@@ -76,3 +76,7 @@ end
 # Authentication
 gem "devise"
 gem 'faker'
+
+
+# Geocoding
+gem 'geocoder'
