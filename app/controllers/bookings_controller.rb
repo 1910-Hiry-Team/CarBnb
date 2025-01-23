@@ -16,9 +16,10 @@ class BookingsController < ApplicationController
   def create
     @booking = Booking.new(booking_params)
     @booking.user = current_user
+    @car = Car.find(params[:car_id])
 
     if @booking.save
-      redirect_to user_booking_path(@booking)
+      redirect_to user_bookings_path(current_user)
     else
       render :new, unprocessable_entity
     end
