@@ -1,5 +1,5 @@
 # Set the starting variables
-USER_COUNT = 10
+USER_COUNT = 100
 CAR_COUNT = rand(50..100)
 BOOKING_COUNT = rand(50..100)
 CAR_PRICE_RANGE = 20..100
@@ -15,7 +15,6 @@ end
 # Clean DB
 cleaning_start_time = Time.now
 puts "Cleaning the database..."
-#Cleaning
 Booking.destroy_all
 Car.destroy_all
 User.destroy_all
