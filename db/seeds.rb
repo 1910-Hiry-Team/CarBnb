@@ -59,11 +59,15 @@ puts 'Created cars:'
 cars.each { |car| puts "- #{car.brand} #{car.model} at #{car.address}" }
 
 # Create Bookings
-puts "Creating Booking DB seed"
-Booking.create(confirmed_booking: false, start_date: "2025-01-10", end_date: "2025-01-20", user: User.first, car: Car.first)
-Booking.create(confirmed_booking: false, start_date: "2025-01-08", end_date: "2025-01-10", user: User.first, car: Car.last)
-Booking.create(confirmed_booking: false, start_date: "2024-12-15", end_date: "2024-12-16", user: User.first, car: Car.last)
-Booking.create(confirmed_booking: false, start_date: "2024-12-05", end_date: "2024-12-12", user: User.first, car: Car.first)
-Booking.create(confirmed_booking: false, start_date: "2024-11-21", end_date: "2024-11-24", user: User.last, car: Car.last)
+if User.first.nil? || Car.first.nil?
+  puts "Error: Missing User or Car to create Booking."
+else
+  puts "Creating Booking DB seed"
+  Booking.create(confirmed_booking: false, start_date: "2025-01-10", end_date: "2025-01-20", user: User.first, car: Car.first)
+  Booking.create(confirmed_booking: false, start_date: "2025-01-08", end_date: "2025-01-10", user: User.first, car: Car.last)
+  Booking.create(confirmed_booking: false, start_date: "2024-12-15", end_date: "2024-12-16", user: User.first, car: Car.last)
+  Booking.create(confirmed_booking: false, start_date: "2024-12-05", end_date: "2024-12-12", user: User.first, car: Car.first)
+  Booking.create(confirmed_booking: false, start_date: "2024-11-21", end_date: "2024-11-24", user: User.last, car: Car.last)
 
-puts "Seeding complete! Created #{User.count} users and #{Car.count} cars."
+  puts "Seeding complete! Created #{User.count} users and #{Car.count} cars."
+end
