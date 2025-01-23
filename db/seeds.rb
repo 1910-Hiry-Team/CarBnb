@@ -1,30 +1,32 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
-
+# Set the starting variables
 USER_COUNT = 100
 CAR_COUNT = rand(50..100)
 BOOKING_COUNT = rand(50..100)
+CAR_PRICE_RANGE = 20..100
+BOOKING_DAYS_FORWARD = 300
+BOOKING_DURATION_RANGE = 1..7
 
+# Set the methods used in the seeding
+def select_valid_car(cars, users)
+  booking_user = users.sample
+  cars.reject { |car| car.user_id == booking_user.id }.sample
+end
+
+# Clean DB
 cleaning_start_time = Time.now
 puts "Cleaning the database..."
 Booking.destroy_all
 Car.destroy_all
 User.destroy_all
-cleaning_stop_time = Time.now
-puts "Database cleaned #{cleaning_stop_time - cleaning_start_time}s!"
+puts "Database cleaned #{Time.now - cleaning_start_time}s!"
 
 seeding_start_time = Time.now
 
+# Users
 users_start_time = Time.now
 puts "Creating users..."
 users = USER_COUNT.times.map do
+  # Create the users
   User.create!(
     email: Faker::Internet.unique.email,
     password: Faker::Internet.password,
@@ -32,50 +34,49 @@ users = USER_COUNT.times.map do
     last_name: Faker::Name.last_name
   )
 end
-users_stop_time = Time.now
-puts "Created #{User.count} users in #{users_stop_time - users_start_time}s"
+puts "Created #{User.count} users in #{Time.now - users_start_time}s"
 
+# Cars
 cars_start_time = Time.now
 puts "Creating cars..."
+
 cars = CAR_COUNT.times.map do
+  car_brand = Faker::Vehicle.make
+  car_model = begin
+    Faker::Vehicle.model(make_of_model: car_brand)
+  rescue
+    Faker::Vehicle.model
+  end
+  # Create the cars
   Car.create!(
-    address: "#{Faker::Address.street_name}, #{rand(1000)}, #{Faker::Address.city},
-              #{rand(10000)}, #{Faker::Address.country}",
-    brand: Faker::Vehicle.manufacturer,
+    address: "#{Faker::Address.full_address}",
+    brand: car_brand,
     category: Faker::Vehicle.car_type,
-    model: Faker::Vehicle.model, #(make_of_model: :brand),
-    price_per_hour: rand(20..100), # Random price between 20 and 100
-    user: users.sample # Assign a random user
+    model: car_model,
+    price_per_hour: rand(CAR_PRICE_RANGE),
+    user: users.sample
   )
 end
-cars_stop_time = Time.now
-puts "Created #{Car.count} cars in #{cars_stop_time - cars_start_time}s"
+puts "Created #{Car.count} cars in #{Time.now - cars_start_time}s"
 
+# Bookings
 bookings_start_time = Time.now
 puts "Creating bookings..."
 BOOKING_COUNT.times do
-  booking_user = users.sample
-  available_cars = cars.reject { |car| car.user_id == booking_user.id } # Exclude cars owned by the booking user
+  booking_car = select_valid_car(cars, users)
+  next unless booking_car # Skip if no valid car is found
 
-  if available_cars.empty?
-    raise "No cars available for booking that satisfy the condition!"
-  end
-
-  booking_car = available_cars.sample
-
-  booking_start_date = Faker::Date.forward(days: 300)
-
+  booking_start_date = Faker::Date.forward(days: rand(BOOKING_DAYS_FORWARD))
+  # Create the bookings
   Booking.create!(
     confirmed_booking: false,
     start_date: booking_start_date,
-    end_date: Faker::Date.between(from: booking_start_date + 1, to: booking_start_date + 7),
+    end_date: Faker::Date.between(from: booking_start_date + BOOKING_DURATION_RANGE.min,
+                                    to: booking_start_date + BOOKING_DURATION_RANGE.max),
     user: users.sample,
-    # car: booking_car
+    car: booking_car
   )
 end
-bookings_stop_time = Time.now
-puts "Created #{Booking.count} bookings in #{bookings_stop_time - bookings_start_time}s"
+puts "Created #{Booking.count} bookings in #{Time.now - bookings_start_time}s"
 
-seeding_stop_time = Time.now
-
-puts "Seeding complete! Created #{User.count} users, #{Car.count} cars and #{Booking.count} bookings in #{seeding_stop_time - seeding_start_time} seconds"
+puts "Seeding complete! Created #{User.count} users, #{Car.count} cars and #{Booking.count} bookings in #{Time.now - seeding_start_time} seconds"
