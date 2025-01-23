@@ -1,7 +1,9 @@
 <%= simple_form_for([@user, @car, @booking]) do |f| %>
   <%= f.input :start_date, as: :date, html5: true %>
   <%= f.input :end_date, as: :date, html5: true %>
-  <%= f.association :car, collection: Car.all %>
   <%= f.hidden_field :user_id, value: current_user.id %>
+   <%= f.hidden_field :car_id, value: @car.id %>
   <%= f.submit "Create booking" %>
 <% end %>
+<%= link_to "Back to car detail", user_car_path(user_id: current_user.id, id: params[:car_id]), class: "btn btn-primary" %>
+<%= link_to "Back to cars", user_cars_path(user_id: current_user.id), class: "btn btn-primary" %>

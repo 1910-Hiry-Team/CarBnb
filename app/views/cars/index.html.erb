@@ -12,7 +12,7 @@
           <p><strong>Type:</strong> <%= car.category %></p>
           <p><strong>Model:</strong> <%= car.model %></p>
           <p><strong>Price per hour:</strong> <%= car.price_per_hour %>$/h</p>
-          <p><%= link_to "More info", "#{car.id}", class: "btn btn-primary" %>
+          <p><%= link_to "More info", car_path(car), class: "btn btn-primary" %>
           <p>
             <%= link_to "Book this car",
                           current_user ? new_user_car_booking_path(current_user, car, @booking) : new_user_session_path,
