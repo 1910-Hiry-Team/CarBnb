@@ -9,7 +9,7 @@
       <li><%= booking.start_date %> to <%= booking.end_date %></li>
       <li><%= booking.car.price_per_hour %> €/h</li>
     </ul>
-    <%= link_to "See booking", user_booking_path(user_id: booking.user, id: booking.id) %>
-    <%= link_to "Edit booking", edit_user_booking_path(user_id: booking.user, id: booking.id)  %>
+    <%# <%= link_to "See booking", user_booking_path(user_id: booking.user, id: booking.id) %> %>
+    <%# <%= link_to "Edit booking", edit_user_booking_path(user_id: booking.user, id: booking.id)  %> %>
   <% end %>
 </div>

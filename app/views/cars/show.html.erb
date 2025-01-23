@@ -1,2 +1,36 @@
 <h1>Cars#show</h1>
 <p>Find me in app/views/cars/show.html.erb</p>
+<div class="container mt-4">
+ <div class="car-details">
+   <h1><%= @car.brand %> <%= @car.model %></h1>
+
+   <div class="car-images my-4">
+     <% if @car.photos.attached? %>
+       <div class="photos-grid">
+         <% @car.photos.each do |photo| %>
+           <%= image_tag photo, class: "car-photo", style: "width: 300px; height: auto;" %>
+         <% end %>
+       </div>
+     <% else %>
+       <p>No photos available</p>
+     <% end %>
+   </div>
+
+   <div class="car-info">
+     <p>Category: <%= @car.category %></p>
+     <p>Price per hour: <%= number_to_currency(@car.price_per_hour) %></p>
+     <p>Location: <%= @car.address %></p>
+     <p>Owner: <%= @car.user.first_name %> <%= @car.user.last_name %></p>
+   </div>
+
+   <% if user_signed_in? && current_user != @car.user %>
+      <p><%= link_to "Book this car", new_user_car_booking_path(user_id: current_user.id, car_id: @car.id), class: "btn btn-primary" %>
+   <% end %>
+
+   <div class="map mt-4" style="height: 400px;"
+     data-controller="map"
+     data-map-markers-value="<%= @markers.to_json %>"
+     data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
+   </div>
+ </div>
+</div>

@@ -15,6 +15,7 @@ end
 # Clean DB
 cleaning_start_time = Time.now
 puts "Cleaning the database..."
+#Cleaning
 Booking.destroy_all
 Car.destroy_all
 User.destroy_all
@@ -65,7 +66,7 @@ Car.all.each do |car|
     car.photos.attach(
       [
         { io: File.open('/Users/joachimclodic/code/Jo8467/hiry-team-carbnb/app/assets/images/img1.jpg'), filename: 'img1.jpg', content_type: 'image/jpeg' },
-        { io: File.open('/Users/joachimclodic/code/Jo8467/hiry-team-carbnb/app/assets/images/img1.jpg'), filename: 'img2.jpg', content_type: 'image/jpeg' }
+        { io: File.open('/Users/joachimclodic/code/Jo8467/hiry-team-carbnb/app/assets/images/img2.jpg'), filename: 'img2.jpg', content_type: 'image/jpeg' }
       ]
     )
     puts "Attached photos to car ID #{car.id}"
