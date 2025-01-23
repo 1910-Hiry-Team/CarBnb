@@ -13,7 +13,7 @@
           <p><strong>Model:</strong> <%= car.model %></p>
           <p><strong>Price per hour:</strong> <%= car.price_per_hour %>$/h</p>
           <p><%= link_to "More info", "show/#{car.id}", class: "btn btn-primary" %>
-          <p><%= link_to "Book this car", "users/#{current_user.id}/bookings/new/#{car.id}", class: "btn btn-primary" %>
+          <p><%= link_to "Book this car", "../users/#{current_user.id}/bookings/new/#{car.id}", class: "btn btn-primary" %>
         </div>
       <% end %>
     </div>
