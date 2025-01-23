@@ -1,73 +1,82 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+# Set the starting variables
+USER_COUNT = 100
+CAR_COUNT = rand(50..100)
+BOOKING_COUNT = rand(50..100)
+CAR_PRICE_RANGE = 20..100
+BOOKING_DAYS_FORWARD = 300
+BOOKING_DURATION_RANGE = 1..7
 
-# Clean the database
-puts 'cleaning the database...'
+# Set the methods used in the seeding
+def select_valid_car(cars, users)
+  booking_user = users.sample
+  cars.reject { |car| car.user_id == booking_user.id }.sample
+end
 
-# Clear existing data to avoid duplication
+# Clean DB
+cleaning_start_time = Time.now
+puts "Cleaning the database..."
 Booking.destroy_all
 Car.destroy_all
 User.destroy_all
+puts "Database cleaned in #{Time.now - cleaning_start_time}s!"
 
-# Create Users
-puts 'Creating users...'
-users = []
-5.times do |i|
-  users << User.create!(
-    email: "user#{i + 1}@example.com",
-    password: 'password',
-    password_confirmation: 'password'
+seeding_start_time = Time.now
+
+# Users
+users_start_time = Time.now
+puts "Creating users..."
+users = USER_COUNT.times.map do
+  # Create the users
+  User.create!(
+    email: Faker::Internet.unique.email,
+    password: Faker::Internet.password,
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name
   )
 end
+puts "Created #{User.count} users in #{Time.now - users_start_time}s"
 
-puts 'Created users:'
-users.each { |user| puts "- #{user.email}" }
+# Cars
+cars_start_time = Time.now
+puts "Creating cars..."
 
-# Create Cars
-puts 'Creating cars...'
-car_categories = ['SUV', 'Sedan', 'Truck', 'Van']
-addresses = [
-  '123 Main Street, San Francisco, CA',
-  '456 Oak Avenue, Los Angeles, CA',
-  '789 Pine Lane, San Diego, CA',
-  '321 Maple Road, Sacramento, CA',
-  '654 Elm Street, Fresno, CA'
-]
-
-cars = []
-users.each_with_index do |user, index|
-  2.times do
-    cars << Car.create!(
-      address: addresses[index],
-      brand: %w[Toyota Honda Ford Tesla].sample,
-      category: car_categories.sample,
-      model: %w[ModelX Civic F150 Corolla].sample,
-      price_per_hour: rand(20..100),
-      user: user
-    )
+cars = CAR_COUNT.times.map do
+  car_brand = Faker::Vehicle.make
+  car_model = begin
+    Faker::Vehicle.model(make_of_model: car_brand)
+  rescue
+    Faker::Vehicle.model
   end
+  # Create the cars
+  Car.create!(
+    address: "#{Faker::Address.full_address}",
+    brand: car_brand,
+    category: Faker::Vehicle.car_type,
+    model: car_model,
+    price_per_hour: rand(CAR_PRICE_RANGE),
+    user: users.sample
+  )
 end
+puts "Created #{Car.count} cars in #{Time.now - cars_start_time}s"
 
-puts 'Created cars:'
-cars.each { |car| puts "- #{car.brand} #{car.model} at #{car.address}" }
+# Bookings
+bookings_start_time = Time.now
+puts "Creating bookings..."
+BOOKING_COUNT.times do
+  booking_car = select_valid_car(cars, users)
+  next unless booking_car # Skip if no valid car is found
 
-# Create Bookings
-if User.first.nil? || Car.first.nil?
-  puts "Error: Missing User or Car to create Booking."
-else
-  puts "Creating Booking DB seed"
-  Booking.create(confirmed_booking: false, start_date: "2025-01-10", end_date: "2025-01-20", user: User.first, car: Car.first)
-  Booking.create(confirmed_booking: false, start_date: "2025-01-08", end_date: "2025-01-10", user: User.first, car: Car.last)
-  Booking.create(confirmed_booking: false, start_date: "2024-12-15", end_date: "2024-12-16", user: User.first, car: Car.last)
-  Booking.create(confirmed_booking: false, start_date: "2024-12-05", end_date: "2024-12-12", user: User.first, car: Car.first)
-  Booking.create(confirmed_booking: false, start_date: "2024-11-21", end_date: "2024-11-24", user: User.last, car: Car.last)
-
-  puts "Seeding complete! Created #{User.count} users and #{Car.count} cars."
+  booking_start_date = Faker::Date.forward(days: rand(BOOKING_DAYS_FORWARD))
+  # Create the bookings
+  Booking.create!(
+    confirmed_booking: false,
+    start_date: booking_start_date,
+    end_date: Faker::Date.between(from: booking_start_date + BOOKING_DURATION_RANGE.min,
+                                    to: booking_start_date + BOOKING_DURATION_RANGE.max),
+    user: users.sample,
+    car: booking_car
+  )
 end
+puts "Created #{Booking.count} bookings in #{Time.now - bookings_start_time}s"
+
+puts "Seeding complete! Created #{User.count} users, #{Car.count} cars and #{Booking.count} bookings in #{Time.now - seeding_start_time} seconds"
