@@ -13,7 +13,12 @@
           <p><strong>Model:</strong> <%= car.model %></p>
           <p><strong>Price per hour:</strong> <%= car.price_per_hour %>$/h</p>
           <p><%= link_to "More info", "#{car.id}", class: "btn btn-primary" %>
-          <p><%= link_to "Book this car", "../users/#{current_user.id}/bookings/new/#{car.id}", class: "btn btn-primary" %>
+          <p>
+            <%= link_to "Book this car",
+                          current_user ? new_user_booking_path(current_user, car_id: car.id) : new_user_session_path,
+                          class: "btn btn-primary",
+                          method: current_user ? :get : :post %>
+          </p>
         </div>
       <% end %>
     </div>
