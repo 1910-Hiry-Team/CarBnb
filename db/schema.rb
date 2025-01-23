@@ -47,10 +47,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_23_112047) do
     t.string "start_date"
     t.string "end_date"
     t.bigint "user_id", null: false
+    t.bigint "car_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "cars_id"
-    t.index ["cars_id"], name: "index_bookings_on_cars_id"
+    t.index ["car_id"], name: "index_bookings_on_car_id"
     t.index ["user_id"], name: "index_bookings_on_user_id"
   end
 
@@ -84,6 +84,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_23_112047) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "bookings", "cars"
   add_foreign_key "bookings", "users"
   add_foreign_key "cars", "users"
 end
