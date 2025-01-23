@@ -6,4 +6,4 @@
   <%= f.submit "Create booking" %>
 <% end %>
 <%= link_to "Back to car detail", user_car_path(user_id: current_user.id, id: params[:car_id]), class: "btn btn-primary" %>
-<%= link_to "Back to cars", user_cars_path(user_id: current_user.id), class: "btn btn-primary" %>
+<%= link_to "Back to cars", cars_path, class: "btn btn-primary" %>

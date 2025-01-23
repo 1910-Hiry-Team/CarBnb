@@ -28,7 +28,7 @@
    <% if user_signed_in? && current_user != @car.user %>
       <p><%= link_to "Book this car", new_user_car_booking_path(user_id: current_user.id, car_id: @car.id), class: "btn btn-primary" %>
    <% end %>
-   <%= link_to "Back to cars", user_cars_path(user_id: current_user.id), class: "btn btn-primary" %>
+   <%= link_to "Back to cars", cars_path, class: "btn btn-primary" %>
 
    <div class="map mt-4" style="height: 400px;"
      data-controller="map"
