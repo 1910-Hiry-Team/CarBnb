@@ -27,6 +27,7 @@ class BookingsController < ApplicationController
 
   def edit
     @user = User.find(params[:user_id])
+    @car = Car.find(params[:car_id])
   end
 
   def update
