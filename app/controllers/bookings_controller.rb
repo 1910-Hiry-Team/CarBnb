@@ -18,7 +18,7 @@ class BookingsController < ApplicationController
     @booking.user = current_user
 
     if @booking.save
-      redirect_to user_booking_path(@booking)
+      redirect_to user_bookings_path(@booking)
     else
       render :new, unprocessable_entity
     end
@@ -30,14 +30,12 @@ class BookingsController < ApplicationController
 
   def update
     @booking.update(booking_params)
-
-    redirect_to user_booking_path(booking_params), flash[:notice] = "Booking succesfully updated"
+    redirect_to user_car_bookings_path(current_user), flash: { notice: "Booking succesfully updated" }
   end
 
   def destroy
     @booking.destroy
-    redirect_to user_bookings_path(current_user), flash[:notice] = "Booking succesfully canceled"
-
+    redirect_to user_bookings_path(current_user), flash: { notice: "Booking succesfully deleted" }
   end
 
   private
