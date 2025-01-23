@@ -59,6 +59,20 @@ cars = CAR_COUNT.times.map do
 end
 puts "Created #{Car.count} cars in #{Time.now - cars_start_time}s"
 
+puts 'Attaching photos to existing cars...'
+Car.all.each do |car|
+  unless car.photos.attached? # Skip cars that already have photos attached
+    car.photos.attach(
+      [
+        { io: File.open('/Users/joachimclodic/code/Jo8467/hiry-team-carbnb/app/assets/images/img1.jpg'), filename: 'img1.jpg', content_type: 'image/jpeg' },
+        { io: File.open('/Users/joachimclodic/code/Jo8467/hiry-team-carbnb/app/assets/images/img2.jpg'), filename: 'img2.jpg', content_type: 'image/jpeg' }
+      ]
+    )
+    puts "Attached photos to car ID #{car.id}"
+  end
+end
+puts 'Finished attaching photos to existing cars.'
+
 # Bookings
 bookings_start_time = Time.now
 puts "Creating bookings..."

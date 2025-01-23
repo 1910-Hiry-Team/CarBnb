@@ -2,7 +2,7 @@
   <%= f.input :start_date, as: :date, html5: true %>
   <%= f.input :end_date, as: :date, html5: true %>
   <%= f.hidden_field :user_id, value: current_user.id %>
-   <%= f.hidden_field :car_id, value: @car.id %>
+  <%= f.hidden_field :car_id, value: @car.id %>
   <%= f.submit "Update booking" %>
 <% end %>
-<%= link_to "Back", user_bookings_path %>
+<%= link_to "Back", user_car_bookings_path %>
