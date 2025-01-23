@@ -1,39 +1,35 @@
-<h1>Cars#show</h1>
-<p>Find me in app/views/cars/show.html.erb</p>
 <div class="container mt-4">
- <div class="car-details">
-   <h1><%= @car.brand %> <%= @car.model %></h1>
+ <div class="row">
+   <div class="col-6">
+     <div class="card">
+       <% if @car.photos.attached? %>
+         <%= image_tag @car.photos.first, class: "card-img-top" %>
+       <% end %>
 
-   <div class="car-images my-4">
-     <% if @car.photos.attached? %>
-       <div class="photos-grid">
-         <% @car.photos.each do |photo| %>
-           <%= image_tag photo, class: "car-photo", style: "width: 300px; height: auto;" %>
+       <div class="card-body">
+         <h2 class="card-title"><%= @car.brand %> <%= @car.model %></h2>
+
+         <div class="car-info">
+           <p><strong>Category:</strong> <%= @car.category %></p>
+           <p><strong>Price per hour:</strong> <%= number_to_currency(@car.price_per_hour) %></p>
+           <p><strong>Location:</strong> <%= @car.address %></p>
+           <p><strong>Owner:</strong> <%= @car.user.first_name %> <%= @car.user.last_name %></p>
+         </div>
+
+         <% if user_signed_in? && current_user != @car.user %>
+           <%= link_to "Book this car", new_user_car_booking_path(user_id: current_user.id, car_id: @car.id), class: "btn btn-primary d-inline-block" %>
          <% end %>
+         <%= link_to "Back to cars", cars_path, class: "btn btn-secondary d-inline-block ms-2" %>
        </div>
-     <% else %>
-       <p>No photos available</p>
-     <% end %>
+     </div>
    </div>
 
-   <div class="car-info">
-     <p><strong>Category:</strong> <%= @car.category %></p>
-     <p><strong>Brand:</strong> <%= @car.brand %></p>
-     <p><strong>Model:</strong></strong> <%= @car.model %></p>
-     <p><strong>Price per hour:</strong> <%= number_to_currency(@car.price_per_hour) %></p>
-     <p><strong>Location:</strong> <%= @car.address %></p>
-     <p><strong>Owner:</strong> <%= @car.user.first_name %> <%= @car.user.last_name %></p>
-   </div>
-
-   <% if user_signed_in? && current_user != @car.user %>
-      <p><%= link_to "Book this car", new_user_car_booking_path(user_id: current_user.id, car_id: @car.id), class: "btn btn-primary" %>
-   <% end %>
-   <%= link_to "Back to cars", cars_path, class: "btn btn-primary" %>
-
-   <div class="map mt-4" style="height: 400px;"
-     data-controller="map"
-     data-map-markers-value="<%= @markers.to_json %>"
-     data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
+   <div class="col-6">
+     <div class="map" style="height: 600px;"
+       data-controller="map"
+       data-map-markers-value="<%= @markers.to_json %>"
+       data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
+     </div>
    </div>
  </div>
 </div>
