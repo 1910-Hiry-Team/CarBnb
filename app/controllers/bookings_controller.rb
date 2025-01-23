@@ -35,8 +35,9 @@ class BookingsController < ApplicationController
   end
 
   def destroy
+    @booking.user = current_user
     @booking.destroy
-    redirect_to user_bookings_path(current_user), flash: { notice: "Booking succesfully deleted" }
+    redirect_to user_bookings_path(current_user), flash: { notice: "Booking succesfully deleted" }, status: :see_other
   end
 
   private

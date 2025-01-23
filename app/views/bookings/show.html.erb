@@ -8,3 +8,7 @@
 
 <%= link_to "Edit booking", edit_user_car_booking_path(user_id: @booking.user, id: @booking.id, car_id: @booking.car)  %>
 <%= link_to "Back", user_bookings_path(user_id: @booking.user)  %>
+<%= link_to "Delete booking", user_car_booking_path(@booking.user, @booking.car, @booking), data: {
+                  turbo_method: :delete,
+                  turbo_confirm: "Are you sure?"
+                } %>
