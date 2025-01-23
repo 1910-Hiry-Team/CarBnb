@@ -16,8 +16,9 @@ Rails.application.routes.draw do
   # end
   # root "posts#index"
   resources :users do
-    resources :cars
-    resources :bookings
+    resources :cars do
+      resources :bookings
+    end
     # resources :cars
   end
   resources :cars, only: [:index, :show] do
