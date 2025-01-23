@@ -18,7 +18,7 @@ puts "Cleaning the database..."
 Booking.destroy_all
 Car.destroy_all
 User.destroy_all
-puts "Database cleaned #{Time.now - cleaning_start_time}s!"
+puts "Database cleaned in #{Time.now - cleaning_start_time}s!"
 
 seeding_start_time = Time.now
 
