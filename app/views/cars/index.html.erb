@@ -1,2 +1,22 @@
-<h1>Cars#index</h1>
-<p>Find me in app/views/cars/index.html.erb</p>
+<% if @cars.any? %>
+  <div class="cover mb-4 d-flex align-items-center justify-content-center">
+    <div class="text-center text-black">
+      <h1>These are all the cars available</h1>
+    </div>
+  </div>
+    <div class="row">
+      <% @cars.each do |car| %>
+        <div class="co-12 col-sm-6 col-md-4 mb-3 card-border">
+          <p><strong>Address:</strong> <%= car.address %></p>
+          <p><strong>Brand:</strong> <%= car.brand %></p>
+          <p><strong>Type:</strong> <%= car.category %></p>
+          <p><strong>Model:</strong> <%= car.model %></p>
+          <p><strong>Price per hour:</strong> <%= car.price_per_hour %>$/h</p>
+          <p><%= link_to "Book this car", 'show', class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% else %>
+  <p>No cars match your search criteria.</p>
+<% end %>
