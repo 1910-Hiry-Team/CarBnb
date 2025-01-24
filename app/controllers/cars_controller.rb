@@ -15,7 +15,8 @@ class CarsController < ApplicationController
   end
 
   def new
-    @car = Car.new#
+    @car = Car.new
+    authorize @car
   end
 
   def create
@@ -24,7 +25,7 @@ class CarsController < ApplicationController
     authorize @car
     if @car.save
 
-      redirect_to car_path(current_user, @car)
+      redirect_to car_path(@car)
     else
       render :new, status: :unprocessable_entity
     end
