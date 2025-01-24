@@ -22,7 +22,7 @@ Rails.application.routes.draw do
     resources :bookings, only: :index
     # resources :cars
   end
-  resources :cars, only: [:index, :show] do
+  resources :cars, only: [:index, :show, :destroy] do
     collection do
       get :search
     end
