@@ -6,7 +6,7 @@
       <%= form_with(url: search_cars_path, method: :get, local: true) do |f| %>
         <div>
           <label for="car_type">Car Type</label>
-          <%= f.select :car_type, ['SUV', 'Sedan', 'Truck', 'Van'], include_blank: 'Choose your type' %>
+          <%= f.select :car_type, ['SUV', 'Sedan', 'Truck', 'Van'], include_blank: 'Choose...' %>
         </div>
         <div>
           <label for="address">Address</label>
