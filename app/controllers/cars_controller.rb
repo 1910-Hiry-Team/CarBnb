@@ -3,7 +3,6 @@ class CarsController < ApplicationController
   before_action :set_car, only: [:show, :edit, :update, :destroy]
   def index
     @cars = policy_scope(Car)
-    # @cars = Car.all
   end
 
   def show
@@ -24,7 +23,6 @@ class CarsController < ApplicationController
     @car.user = current_user
     authorize @car
     if @car.save
-      puts "Car saved successfully" # Debug
 
       redirect_to car_path(current_user, @car)
     else
