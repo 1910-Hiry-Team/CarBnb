@@ -15,7 +15,7 @@
           <p><%= link_to "More info", car_path(car.id), class: "btn btn-primary" %>
           <p>
             <%= link_to "Book this car",
-                          current_user ? new_user_car_booking_path(current_user, car, @booking) : new_user_session_path,
+                          current_user ? new_user_car_booking_path(current_user, car) : new_user_session_path,
                           class: "btn btn-primary" %>
           </p>
         </div>
