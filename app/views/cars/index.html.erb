@@ -12,19 +12,31 @@
           <p><strong>Type:</strong> <%= car.category %></p>
           <p><strong>Model:</strong> <%= car.model %></p>
           <p><strong>Price per hour:</strong> <%= car.price_per_hour %>$/h</p>
-          <p><%= link_to "More info", car_path(car.id), class: "btn btn-primary" %>
-          <p>
-            <%= link_to "Book this car",
-                          current_user ? new_user_car_booking_path(current_user, car, @booking) : new_user_session_path,
-                          class: "btn btn-primary" %>
-          </p>
-        </div>
+              <div class="d-flex gap-2">
+              <p><%= link_to "More info", car_path(car.id), class: "btn btn-primary" %>
+              <p>
+                <%= link_to "Book this car",
+                              current_user ? new_user_car_booking_path(current_user, car, @booking) : new_user_session_path,
+                              class: "btn btn-primary" %>
+              </p>
+            </div>
+          </div>
       <% end %>
     </div>
   </div>
 <% else %>
   <p>No cars match your search criteria.</p>
 <% end %>
+
+<div class="card-car-container">
+  <div class="car-card-item">
+    <div class="car-card-item-image">
+      <div class="card-card-description">
+      </div>
+    </div>
+  </div>
+</div>
+
 <% if policy(Car).new? %>
   <%= link_to "Add a new car", new_user_car_path(current_user), class: "btn btn-primary" %>
 <% end %>
