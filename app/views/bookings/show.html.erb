@@ -3,7 +3,7 @@
 </div>
 <ul>
   <li><%= @booking.start_date %> to <%= @booking.end_date %></li>
-  <li><%= @booking.car.price_per_hour %> €/h</li>
+  <li><%= @booking.car.price_per_hour %> $/h</li>
 </ul>
 
 <%= link_to "Edit booking", edit_user_car_booking_path(current_user, id: @booking.id, car_id: @booking.car)  %>
