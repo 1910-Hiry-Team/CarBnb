@@ -25,3 +25,6 @@
 <% else %>
   <p>No cars match your search criteria.</p>
 <% end %>
+<% if policy(Car).new? %>
+  <%= link_to "Add a new car", new_user_car_path(current_user), class: "btn btn-primary" %>
+<% end %>
