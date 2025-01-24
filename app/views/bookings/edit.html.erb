@@ -1,8 +1,12 @@
 <%= simple_form_for([@user, @car, @booking]) do |f| %>
-  <%= f.input :start_date, as: :date, html5: true %>
-  <%= f.input :end_date, as: :date, html5: true %>
+  <%= f.input :start_date,
+            label: "Change dates",
+            as: :string,
+            input_html: { data: { controller: "datepicker" },
+                          value: "#{@booking.start_date} to #{@booking.end_date}"
+            } %>
   <%= f.hidden_field :user_id, value: current_user.id %>
   <%= f.hidden_field :car_id, value: @car.id %>
   <%= f.submit "Update booking" %>
 <% end %>
-<%= link_to "Back", user_car_bookings_path(current_user) %>
+<%= link_to "Back", user_car_booking_path(current_user, @car.id, @booking.id) %>
