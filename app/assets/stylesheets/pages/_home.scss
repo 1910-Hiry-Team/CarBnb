@@ -1,1 +1,79 @@
 // Specific CSS for your home-page
+form {
+  display: flex;
+  align-items: center; /* Aligne tous les éléments sur une seule ligne */
+  gap: 10px; /* Espacement entre les éléments */
+  background-color: #f8f8f8; /* Couleur d'arrière-plan douce */
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Labels avec opacité réduite */
+form label {
+  font-size: 12px; /* Taille plus petite pour les labels */
+  opacity: 0.5;
+  margin-bottom: 5px;
+  display: block; /* S'assure que les labels sont au-dessus des champs */
+}
+
+/* Conteneur des champs pour aligner label + input */
+form div {
+  display: flex;
+  flex-direction: column; /* Les labels au-dessus des champs */
+  flex: 1; /* Les champs s'adaptent à la largeur disponible */
+}
+
+/* Champs de formulaire */
+form select,
+form input[type="text"],
+form input[type="number"] {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Effet au focus */
+form select:focus,
+form input[type="text"]:focus,
+form input[type="number"]:focus {
+  border-color: #007bff; /* Couleur bleue pour indiquer l'interaction */
+}
+
+/* Bouton de recherche */
+form .btn {
+  align-self: flex-end; /* Aligne le bouton en haut des inputs */
+  padding: 10px 20px;
+  background-color: #007bff; /* Couleur bleue primaire */
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+form .btn:hover {
+  background-color: #0056b3; /* Couleur plus sombre au survol */
+}
+
+/* Responsive pour les petits écrans */
+@media (max-width: 768px) {
+  form {
+    flex-direction: column; /* Les champs passent en colonne */
+  }
+
+  form div {
+    width: 100%; /* Les champs prennent toute la largeur */
+  }
+
+  form .btn {
+    align-self: stretch; /* Le bouton prend toute la largeur */
+  }
+}
