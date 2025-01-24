@@ -32,7 +32,8 @@ class BookingsController < ApplicationController
   end
 
   def update
-    @booking.update(booking_params)
+    start_date, end_date = params[:booking][:start_date].split(" to ")
+    @booking.update(booking_params.merge(start_date: start_date, end_date: end_date))
     redirect_to user_car_bookings_path(current_user), flash: { notice: "Booking succesfully updated" }
   end
 
