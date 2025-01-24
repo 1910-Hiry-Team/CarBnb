@@ -5,10 +5,8 @@
        <% if @car.photos.attached? %>
          <%= image_tag @car.photos.first, class: "card-img-top" %>
        <% end %>
-
        <div class="card-body">
          <h2 class="card-title"><%= @car.brand %> <%= @car.model %></h2>
-
          <div class="car-info">
            <p><strong>Category:</strong> <%= @car.category %></p>
            <p><strong>Price per hour:</strong> <%= number_to_currency(@car.price_per_hour) %></p>

@@ -3,7 +3,6 @@ form {
   display: flex;
   align-items: center; /* Aligne tous les éléments sur une seule ligne */
   gap: 10px; /* Espacement entre les éléments */
-  background-color: #f8f8f8; /* Couleur d'arrière-plan douce */
   padding: 10px 15px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -47,9 +46,9 @@ form input[type="number"]:focus {
 
 /* Bouton de recherche */
 form .btn {
-  align-self: flex-end; /* Aligne le bouton en haut des inputs */
+  align-self: flex-end;
   padding: 10px 20px;
-  background-color: #007bff; /* Couleur bleue primaire */
+  background-color: #007bff;
   color: white;
   font-size: 14px;
   font-weight: bold;
@@ -60,20 +59,20 @@ form .btn {
 }
 
 form .btn:hover {
-  background-color: #0056b3; /* Couleur plus sombre au survol */
+  background-color: purple;
 }
 
-/* Responsive pour les petits écrans */
+
 @media (max-width: 768px) {
   form {
-    flex-direction: column; /* Les champs passent en colonne */
+    flex-direction: column;
   }
 
   form div {
-    width: 100%; /* Les champs prennent toute la largeur */
+    width: 100%;
   }
 
   form .btn {
-    align-self: stretch; /* Le bouton prend toute la largeur */
+    align-self: stretch;
   }
 }
