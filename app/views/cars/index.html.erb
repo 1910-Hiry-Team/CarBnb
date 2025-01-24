@@ -3,11 +3,9 @@
     <div class="cover mb-4 d-flex align-items-center justify-content-center">
         <%= render 'shared/searchbar' %>
     </div>
-      <div class="row">
+      <div class="row justify-content-center">
         <% @cars.each do |car| %>
-          <div class="co-6 col-sm-4 col-md-4 mb-3 card-border">
-
-            <p><strong>Address:</strong> <%= car.address %></p>
+          <div class="col-md-3 border p-3">
             <p><strong>Brand:</strong> <%= car.brand %></p>
             <p><strong>Type:</strong> <%= car.category %></p>
             <p><strong>Model:</strong> <%= car.model %></p>
