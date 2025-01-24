@@ -1,7 +1,7 @@
 class BookingsController < ApplicationController
   before_action :set_booking, only: [:show, :edit, :update, :destroy]
   def index
-    @bookings = Booking.where(user_id: params[:user_id])
+    @bookings = policy_scope(Booking) # Booking.where(user_id: params[:user_id])
   end
 
   def show
@@ -11,6 +11,7 @@ class BookingsController < ApplicationController
     @user = User.find(params[:user_id])
     @car = Car.find(params[:car_id])
     @booking = Booking.new
+    authorize @booking
   end
 
   def create
@@ -18,7 +19,7 @@ class BookingsController < ApplicationController
     @booking = Booking.new(booking_params.merge(start_date: start_date, end_date: end_date))
     @booking.user = current_user
     @car = Car.find(params[:car_id])
-
+    authorize @booking
     if @booking.save
       redirect_to user_bookings_path(current_user)
     else
@@ -47,6 +48,7 @@ class BookingsController < ApplicationController
 
   def set_booking
     @booking = Booking.find(params[:id])
+    authorize @booking
   end
 
   def booking_params
