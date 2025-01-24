@@ -1,10 +1,50 @@
-# Set the starting variables
-USER_COUNT = 100
-CAR_COUNT = rand(50..100)
-BOOKING_COUNT = rand(50..100)
-CAR_PRICE_RANGE = 20..100
-BOOKING_DAYS_FORWARD = 300
-BOOKING_DURATION_RANGE = 1..7
+puts 'How heavy do you want the seeding to be? (light/medium/heavy)'
+  seeding_type = gets.chomp
+
+  if seeding_type =~ /\b(light|l)\b/i
+    puts 'Light seeding selected.'
+  elsif seeding_type =~ /\b(medium|m)\b/i
+    puts 'Medium seeding selected.'
+  elsif seeding_type =~ /\b(heavy|h)\b/i
+    puts 'Heavy seeding selected.'
+  else
+    puts 'Invalid input. Defaulting to light seeding.'
+    seeding_type = 'light'
+  end
+
+  if seeding_type =~ /\b(heavy|h)\b/i
+    puts 'WARNING: Heavy seeding may take a long time to complete. Are you sure you want to proceed? (yes/no)'
+    puts 'Estimated time: 5-10 minutes'
+    proceed = gets.chomp
+    unless proceed =~ /\b(yes|y)\b/i
+      puts 'Seeding cancelled.'
+      exit
+    end
+  end
+
+  # Set the seeding variables
+  if seeding_type =~ /\b(light|l)\b/i
+    USER_COUNT = 10
+    CAR_COUNT = rand(5..10)
+    BOOKING_COUNT = rand(5..10)
+    CAR_PRICE_RANGE = 20..100
+    BOOKING_DAYS_FORWARD = 30
+    BOOKING_DURATION_RANGE = 1..7
+  elsif seeding_type =~ /\b(medium|m)\b/i
+    USER_COUNT = 100
+    CAR_COUNT = rand(50..100)
+    BOOKING_COUNT = rand(50..100)
+    CAR_PRICE_RANGE = 20..100
+    BOOKING_DAYS_FORWARD = 100
+    BOOKING_DURATION_RANGE = 1..7
+  elsif seeding_type =~ /\b(heavy|h)\b/i
+    USER_COUNT = 1000
+    CAR_COUNT = rand(500..1000)
+    BOOKING_COUNT = rand(500..1000)
+    CAR_PRICE_RANGE = 20..100
+    BOOKING_DAYS_FORWARD = 300
+    BOOKING_DURATION_RANGE = 1..7
+  end
 
 # Set the methods used in the seeding
 def select_valid_car(cars, users)
@@ -61,11 +101,14 @@ puts "Created #{Car.count} cars in #{Time.now - cars_start_time}s"
 
 puts 'Attaching photos to existing cars...'
 Car.all.each do |car|
+  rand_img_nb = rand(1..7)
+  rand_img_name = "img#{rand_img_nb}.jpg"
   unless car.photos.attached? # Skip cars that already have photos attached
     car.photos.attach(
       [
-        { io: File.open('/Users/joachimclodic/code/Jo8467/hiry-team-carbnb/app/assets/images/img1.jpg'), filename: 'img1.jpg', content_type: 'image/jpeg' },
-        { io: File.open('/Users/joachimclodic/code/Jo8467/hiry-team-carbnb/app/assets/images/img2.jpg'), filename: 'img2.jpg', content_type: 'image/jpeg' }
+        { io: File.open("app/assets/images/#{rand_img_name}"),
+          filename: rand_img_name,
+          content_type: 'image/jpeg' },
       ]
     )
     puts "Attached photos to car ID #{car.id}"
