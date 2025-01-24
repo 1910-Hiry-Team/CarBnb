@@ -73,10 +73,10 @@ group :test do
   gem "selenium-webdriver"
 end
 
-# Authentication
+# Authentication and Authorisation
 gem "devise"
 gem 'faker'
-
+gem 'pundit'
 
 # Geocoding
 gem 'geocoder'

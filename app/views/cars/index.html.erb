@@ -36,3 +36,7 @@
     </div>
   </div>
 </div>
+
+<% if policy(Car).new? %>
+  <%= link_to "Add a new car", new_user_car_path(current_user), class: "btn btn-primary" %>
+<% end %>

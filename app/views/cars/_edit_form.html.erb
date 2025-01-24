@@ -1,0 +1,8 @@
+<%= simple_form_for [current_user, @car] do |f| %>
+ <%= f.input :brand %>
+ <%= f.input :model %>
+ <%= f.input :category %>
+ <%= f.input :address %>
+ <%= f.input :price_per_hour, as: :integer %>
+ <%= f.button :submit, "Update Car" %>
+<% end %>

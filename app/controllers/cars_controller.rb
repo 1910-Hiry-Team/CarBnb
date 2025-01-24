@@ -2,7 +2,7 @@ class CarsController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index, :show, :search]
   before_action :set_car, only: [:show, :edit, :update, :destroy]
   def index
-    @cars = Car.all
+    @cars = policy_scope(Car)
   end
 
   def show
@@ -14,13 +14,16 @@ class CarsController < ApplicationController
   end
 
   def new
-    @car = Car.new#
+    @car = Car.new
+    authorize @car
   end
 
   def create
     @car = Car.new(car_params)
     @car.user = current_user
+    authorize @car
     if @car.save
+
       redirect_to car_path(@car)
     else
       render :new, status: :unprocessable_entity
@@ -44,6 +47,7 @@ class CarsController < ApplicationController
   end
 
   def search
+    authorize Car
     Rails.logger.debug "Search Params: #{params.inspect}"
 
     # Start with all cars
@@ -84,9 +88,10 @@ class CarsController < ApplicationController
 
   def set_car
     @car = Car.find(params[:id])
+    authorize @car
   end
 
   def car_params
-    params.require(:car).permit(:address, :brand, :category, :model, :price_per_hour)
+    params.require(:car).permit(:address, :brand, :category, :model, :price_per_hour, photos: [])
   end
 end
