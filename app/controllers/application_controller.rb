@@ -4,8 +4,10 @@ class ApplicationController < ActionController::Base
   before_action :store_user_location!, if: :storable_location?
   protect_from_forgery with: :exception
   skip_before_action :verify_authenticity_token, if: :devise_controller?
-
   include Pundit::Authorization
+  after_action :verify_authorized, except: :index, unless: :skip_pundit?
+  after_action :verify_policy_scoped, only: :index, unless: :skip_pundit?
+
 
   # Pundit: allow-list approach
   after_action :verify_authorized, except: :index, unless: :skip_pundit?
