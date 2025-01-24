@@ -12,6 +12,7 @@
           <p><strong>Type:</strong> <%= car.category %></p>
           <p><strong>Model:</strong> <%= car.model %></p>
           <p><strong>Price per hour:</strong> <%= car.price_per_hour %>$/h</p>
+
               <div class="d-flex gap-2">
               <p><%= link_to "More info", car_path(car.id), class: "btn btn-primary" %>
               <p>
@@ -21,6 +22,7 @@
               </p>
             </div>
           </div>
+
       <% end %>
     </div>
   </div>
