@@ -1,43 +1,35 @@
-<% if @cars.any? %>
-  <div class="cover mb-4 d-flex align-items-center justify-content-center">
-    <div class="text-center text-black">
-      <h1>These are all the cars available</h1>
+<div class="container">
+  <% if @cars.any? %>
+    <div class="cover mb-4 d-flex align-items-center justify-content-center">
+        <%= render 'shared/searchbar' %>
     </div>
-  </div>
-    <div class="row">
-      <% @cars.each do |car| %>
-        <div class="co-12 col-sm-6 col-md-4 mb-3 card-border">
-          <p><strong>Address:</strong> <%= car.address %></p>
-          <p><strong>Brand:</strong> <%= car.brand %></p>
-          <p><strong>Type:</strong> <%= car.category %></p>
-          <p><strong>Model:</strong> <%= car.model %></p>
-          <p><strong>Price per hour:</strong> <%= car.price_per_hour %>$/h</p>
+      <div class="row">
+        <% @cars.each do |car| %>
+          <div class="co-6 col-sm-4 col-md-4 mb-3 card-border">
 
-              <div class="d-flex gap-2">
-              <p><%= link_to "More info", car_path(car.id), class: "btn btn-primary" %>
-              <p>
-                <%= link_to "Book this car",
-                              current_user ? new_user_car_booking_path(current_user, car, @booking) : new_user_session_path,
-                              class: "btn btn-primary" %>
-              </p>
+            <p><strong>Address:</strong> <%= car.address %></p>
+            <p><strong>Brand:</strong> <%= car.brand %></p>
+            <p><strong>Type:</strong> <%= car.category %></p>
+            <p><strong>Model:</strong> <%= car.model %></p>
+            <p><strong>Price per hour:</strong> <%= car.price_per_hour %>$/h</p>
+
+                <div class="d-flex gap-2">
+                <p><%= link_to "More info", car_path(car.id), class: "btn btn-primary" %>
+                <p>
+                  <%= link_to "Book this car",
+                                current_user ? new_user_car_booking_path(current_user, car, @booking) : new_user_session_path,
+                                class: "btn btn-primary" %>
+                </p>
+              </div>
             </div>
-          </div>
 
-      <% end %>
-    </div>
-  </div>
-<% else %>
-  <p>No cars match your search criteria.</p>
-<% end %>
-
-<div class="card-car-container">
-  <div class="car-card-item">
-    <div class="car-card-item-image">
-      <div class="card-card-description">
+        <% end %>
       </div>
-    </div>
-  </div>
+  <% else %>
+    <p>No cars match your search criteria.</p>
+  <% end %>
 </div>
+
 
 <% if policy(Car).new? %>
   <%= link_to "Add a new car", new_user_car_path(current_user), class: "btn btn-primary" %>
