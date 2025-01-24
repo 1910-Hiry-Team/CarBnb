@@ -1,11 +1,21 @@
-<%= simple_form_for([@user, @car, @booking]) do |f| %>
-  <%= f.input :start_date,
-            label: "Select dates",
-            as: :string,
-            input_html: { data: { controller: "datepicker" } } %>
-  <%= f.hidden_field :user_id, value: current_user.id %>
-   <%= f.hidden_field :car_id, value: @car.id %>
-  <%= f.submit "Create booking" %>
-<% end %>
-<%= link_to "Back to car detail", car_path(id: params[:car_id]), class: "btn btn-primary" %>
-<%= link_to "Back to cars", cars_path, class: "btn btn-primary" %>
+<div class="container mt-5">
+  <h2><strong>Your Booking</strong></h2>
+  <div class="row">
+    <div class="justify-center align-self-stretch">
+      <%= simple_form_for([@user, @car, @booking]) do |f| %>
+        <%= f.input :start_date,
+                  label: "Select dates",
+                  as: :string,
+                  input_html: { data: { controller: "datepicker" }} %>
+        <%= f.hidden_field :user_id, value: current_user.id %>
+         <%= f.hidden_field :car_id, value: @car.id %>
+        <%= f.submit "Create booking" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-3">
+  <%= link_to "Back to car detail", car_path(id: params[:car_id]), class: "btn btn-primary" %>
+  <%= link_to "Back to cars", cars_path, class: "btn btn-primary" %>
+</div>
