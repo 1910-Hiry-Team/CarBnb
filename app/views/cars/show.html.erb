@@ -19,6 +19,12 @@
          <% if user_signed_in? && current_user != @car.user %>
            <%= link_to "Book this car", new_user_car_booking_path(user_id: current_user.id, car_id: @car.id), class: "btn btn-primary d-inline-block" %>
          <% end %>
+         <% if policy(@car).edit? %>
+           <%= link_to "Edit this car", edit_user_car_path(@car), class: "btn btn-warning d-inline-block" %>
+         <% end %>
+          <% if policy(@car).destroy? %>
+            <%= link_to "Delete this car", car_path(@car), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger d-inline-block" %>
+         <% end %>
          <%= link_to "Back to cars", cars_path, class: "btn btn-secondary d-inline-block ms-2" %>
        </div>
      </div>
